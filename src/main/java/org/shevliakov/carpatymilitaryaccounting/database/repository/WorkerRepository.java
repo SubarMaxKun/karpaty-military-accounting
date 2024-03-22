@@ -9,6 +9,8 @@ public interface WorkerRepository {
 
   Worker getWorkerById(Long id);
 
+  List<Integer> getYearsOfBirth();
+
   void persistWorker(Worker worker);
 
   void updateWorker(Worker worker);

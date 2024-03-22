@@ -23,6 +23,13 @@ public class WorkerRepositoryImpl implements WorkerRepository {
   }
 
   @Override
+  public List<Integer> getYearsOfBirth() {
+    TypedQuery<Integer> query = entityManager.createQuery(
+        "SELECT DISTINCT YEAR(w.birthDate) FROM Worker w GROUP BY YEAR(w.birthDate)", Integer.class);
+    return query.getResultList();
+  }
+
+  @Override
   public void persistWorker(Worker worker) {
     if (worker.getId() == null){
       entityManager.persist(worker);

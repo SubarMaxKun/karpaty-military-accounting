@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,7 @@ public class Worker {
   private String fullName;
 
   @Column(name = "birth_date")
-  private String birthDate;
+  private Date birthDate;
 
   @Column(name = "registration_number")
   private String registrationNumber;

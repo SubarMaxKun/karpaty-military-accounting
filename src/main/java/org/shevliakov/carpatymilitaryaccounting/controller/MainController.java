@@ -6,16 +6,20 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByBirthYear;
 import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerRepositoryImpl;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class MainController implements Initializable {
 
+  @FXML
+  private ChoiceBox<Integer> birthYearChoiceBox;
   @FXML
   private TextField nameSearchTextField;
   @FXML
@@ -44,9 +48,10 @@ public class MainController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    retrieveWorkers();
+    retrieveData();
     fillTable();
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
+    new FilterWorkerByBirthYear().filter(birthYearChoiceBox, workers, workersObservableList);
   }
 
   private void fillTable() {
@@ -61,10 +66,13 @@ public class MainController implements Initializable {
     idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));
   }
 
-  private void retrieveWorkers() {
+  private void retrieveData() {
     WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
     workers = workerRepository.getAllWorkers();
     workersObservableList = workersTableView.getItems();
     workersObservableList.addAll(workers);
+
+    birthYearChoiceBox.getItems().add(null);
+    birthYearChoiceBox.getItems().addAll(workerRepository.getYearsOfBirth());
   }
 }
