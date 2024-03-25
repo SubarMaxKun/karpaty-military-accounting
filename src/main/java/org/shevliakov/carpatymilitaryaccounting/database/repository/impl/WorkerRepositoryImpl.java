@@ -30,6 +30,12 @@ public class WorkerRepositoryImpl implements WorkerRepository {
   }
 
   @Override
+  public List<String> getRanks() {
+    TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT w.rank FROM Worker w", String.class);
+    return query.getResultList();
+  }
+
+  @Override
   public void persistWorker(Worker worker) {
     if (worker.getId() == null){
       entityManager.persist(worker);

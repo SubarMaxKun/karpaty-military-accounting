@@ -32,7 +32,8 @@
         </GridPane.margin>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Рік народження" />
         <ChoiceBox fx:id="birthYearChoiceBox" prefWidth="150.0" />
-        <ChoiceBox prefWidth="150.0" />
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Звання" />
+        <ChoiceBox fx:id="rankChoiceBox" prefWidth="150.0" />
         <TextField fx:id="nameSearchTextField" prefHeight="26.0" prefWidth="200.0" promptText="Ім'я" />
       </HBox>
       <TableView fx:id="workersTableView" GridPane.rowIndex="1">

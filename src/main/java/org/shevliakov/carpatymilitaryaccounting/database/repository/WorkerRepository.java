@@ -11,6 +11,8 @@ public interface WorkerRepository {
 
   List<Integer> getYearsOfBirth();
 
+  List<String> getRanks();
+
   void persistWorker(Worker worker);
 
   void updateWorker(Worker worker);

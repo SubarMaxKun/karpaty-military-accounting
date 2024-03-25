@@ -12,12 +12,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByBirthYear;
+import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByRank;
 import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerRepositoryImpl;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class MainController implements Initializable {
 
+  @FXML
+  private ChoiceBox<String> rankChoiceBox;
   @FXML
   private ChoiceBox<Integer> birthYearChoiceBox;
   @FXML
@@ -52,6 +55,7 @@ public class MainController implements Initializable {
     fillTable();
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
     new FilterWorkerByBirthYear().filter(birthYearChoiceBox, workers, workersObservableList);
+    new FilterWorkerByRank().filter(rankChoiceBox, workers, workersObservableList);
   }
 
   private void fillTable() {
@@ -74,5 +78,8 @@ public class MainController implements Initializable {
 
     birthYearChoiceBox.getItems().add(null);
     birthYearChoiceBox.getItems().addAll(workerRepository.getYearsOfBirth());
+
+    rankChoiceBox.getItems().add(null);
+    rankChoiceBox.getItems().addAll(workerRepository.getRanks());
   }
 }
