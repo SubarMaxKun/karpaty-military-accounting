@@ -3,6 +3,7 @@ package org.shevliakov.carpatymilitaryaccounting.controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,12 +16,13 @@ import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerBy
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByRank;
 import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerRepositoryImpl;
+import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class MainController implements Initializable {
 
   @FXML
-  private ChoiceBox<String> rankChoiceBox;
+  private ChoiceBox<Rank> rankChoiceBox;
   @FXML
   private ChoiceBox<Integer> birthYearChoiceBox;
   @FXML
@@ -28,7 +30,7 @@ public class MainController implements Initializable {
   @FXML
   private TableView<Worker> workersTableView;
   @FXML
-  private TableColumn<?, ?> rankColumn;
+  private TableColumn<Worker, String> rankColumn;
   @FXML
   private TableColumn<?, ?> fullNameColumn;
   @FXML
@@ -38,7 +40,7 @@ public class MainController implements Initializable {
   @FXML
   private TableColumn<?, ?> militarySpecialtyColumn;
   @FXML
-  private TableColumn<?, ?> trainingColumn;
+  private TableColumn<Worker, String> trainingColumn;
   @FXML
   private TableColumn<?, ?> accountingCategoryColumn;
   @FXML
@@ -59,12 +61,14 @@ public class MainController implements Initializable {
   }
 
   private void fillTable() {
-    rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+    rankColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
+        workerStringCellDataFeatures.getValue().getRank().getRank()));
     fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
     birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
     registrationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
     militarySpecialtyColumn.setCellValueFactory(new PropertyValueFactory<>("militarySpecialty"));
-    trainingColumn.setCellValueFactory(new PropertyValueFactory<>("training"));
+    trainingColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
+        workerStringCellDataFeatures.getValue().getTraining().getName()));
     accountingCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("accountingCategory"));
     degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
     idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));

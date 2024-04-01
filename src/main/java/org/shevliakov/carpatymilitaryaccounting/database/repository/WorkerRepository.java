@@ -1,6 +1,7 @@
 package org.shevliakov.carpatymilitaryaccounting.database.repository;
 
 import java.util.List;
+import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public interface WorkerRepository {
@@ -11,7 +12,7 @@ public interface WorkerRepository {
 
   List<Integer> getYearsOfBirth();
 
-  List<String> getRanks();
+  List<Rank> getRanks();
 
   void persistWorker(Worker worker);
 

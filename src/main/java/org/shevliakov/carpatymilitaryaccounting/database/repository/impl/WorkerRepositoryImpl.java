@@ -5,6 +5,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 import org.shevliakov.carpatymilitaryaccounting.database.DatabaseManager;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
+import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class WorkerRepositoryImpl implements WorkerRepository {
@@ -25,19 +26,21 @@ public class WorkerRepositoryImpl implements WorkerRepository {
   @Override
   public List<Integer> getYearsOfBirth() {
     TypedQuery<Integer> query = entityManager.createQuery(
-        "SELECT DISTINCT YEAR(w.birthDate) FROM Worker w GROUP BY YEAR(w.birthDate)", Integer.class);
+        "SELECT DISTINCT YEAR(w.birthDate) FROM Worker w GROUP BY YEAR(w.birthDate)",
+        Integer.class);
     return query.getResultList();
   }
 
   @Override
-  public List<String> getRanks() {
-    TypedQuery<String> query = entityManager.createQuery("SELECT DISTINCT w.rank FROM Worker w", String.class);
+  public List<Rank> getRanks() {
+    TypedQuery<Rank> query = entityManager.createQuery("SELECT DISTINCT w.rank FROM Worker w",
+        Rank.class);
     return query.getResultList();
   }
 
   @Override
   public void persistWorker(Worker worker) {
-    if (worker.getId() == null){
+    if (worker.getId() == null) {
       entityManager.persist(worker);
       entityManager.getTransaction().commit();
     } else {
