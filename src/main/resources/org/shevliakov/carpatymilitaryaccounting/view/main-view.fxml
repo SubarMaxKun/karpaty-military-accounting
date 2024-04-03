@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.shevliakov.carpatymilitaryaccounting.controller.MainController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1150.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.shevliakov.carpatymilitaryaccounting.controller.MainController">
   <Tab text="Облік працівників">
     <GridPane prefHeight="471.0" prefWidth="617.0">
       <columnConstraints>
@@ -47,6 +47,7 @@
           <TableColumn fx:id="accountingCategoryColumn" prefWidth="110.0" text="Категорія обліку" />
           <TableColumn fx:id="degreeColumn" prefWidth="110.0" text="Освіта" />
           <TableColumn fx:id="idInfoColumn" prefWidth="110.0" text="Реквізити паспорта" />
+          <TableColumn fx:id="editColumn" prefWidth="110.0" text="Редагувати" />
         </columns>
       </TableView>
     </GridPane>

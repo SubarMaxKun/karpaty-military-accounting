@@ -7,6 +7,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,6 +48,8 @@ public class MainController implements Initializable {
   private TableColumn<?, ?> degreeColumn;
   @FXML
   private TableColumn<?, ?> idInfoColumn;
+  @FXML
+  private TableColumn<Worker, Button> editColumn;
 
   private List<Worker> workers;
   private ObservableList<Worker> workersObservableList;
@@ -72,6 +75,7 @@ public class MainController implements Initializable {
     accountingCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("accountingCategory"));
     degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
     idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));
+    new AddEditButtonsToTable().addEditButtonsToTable(editColumn);
   }
 
   private void retrieveData() {
