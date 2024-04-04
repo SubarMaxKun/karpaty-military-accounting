@@ -1,13 +1,13 @@
 package org.shevliakov.carpatymilitaryaccounting.controller;
 
 import java.io.IOException;
-import java.util.Optional;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
@@ -27,25 +27,24 @@ public class AddEditButtonsToTable {
           btn.setOnAction(event -> {
             Worker worker = getTableView().getItems().get(getIndex());
             // Create window for editing worker info
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.initOwner(btn.getScene().getWindow());
-            dialog.setTitle("Редагування інформації про працівника");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/org/shevliakov/carpatymilitaryaccounting/view/edit-worker-info-view.fxml"));
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle("Редагування інформації про працівника");
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(
+                "/org/shevliakov/carpatymilitaryaccounting/view/edit-worker-info-view.fxml"));
             try {
-              dialog.getDialogPane().setContent(fxmlLoader.load());
+              loader.load();
             } catch (IOException e) {
               e.printStackTrace();
-              return;
             }
-            EditWorkerInfoController controller = fxmlLoader.getController();
+            Scene scene = new Scene(loader.getRoot());
+            stage.setScene(scene);
+            EditWorkerInfoController controller = loader.getController();
             controller.setWorkerInfo(worker);
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-              // Save changes
-              //controller.saveWorkerInfo(worker);
-            }
+            stage.initOwner(btn.getScene().getWindow());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
           });
           setGraphic(btn);
           setText(null);

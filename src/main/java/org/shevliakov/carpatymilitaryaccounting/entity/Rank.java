@@ -24,4 +24,8 @@ public class Rank {
 
   @Column(name = "rank")
   private String rank;
+
+  public String toString() {
+    return this.rank;
+  }
 }
