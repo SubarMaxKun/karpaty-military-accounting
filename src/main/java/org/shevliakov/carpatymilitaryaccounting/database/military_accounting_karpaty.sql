@@ -32,14 +32,14 @@ USE `military_accounting_karpaty`;
 DROP TABLE IF EXISTS `ranks`;
 CREATE TABLE `ranks` (
   `id` int(11) NOT NULL,
-  `rank` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ranks`
 --
 
-INSERT INTO `ranks` (`id`, `rank`) VALUES
+INSERT INTO `ranks` (`id`, `name`) VALUES
 (1, 'Рекрут'),
 (2, 'Солдат'),
 (3, 'Старший солдат'),

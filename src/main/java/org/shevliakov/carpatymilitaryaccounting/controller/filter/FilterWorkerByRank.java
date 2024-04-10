@@ -13,7 +13,7 @@ public class FilterWorkerByRank {
     rankChoiceBox.setConverter(new StringConverter<>() {
       @Override
       public String toString(Rank rank) {
-        return rank == null ? "Всі" : rank.getRank();
+        return rank == null ? "Всі" : rank.getName();
       }
 
       @Override

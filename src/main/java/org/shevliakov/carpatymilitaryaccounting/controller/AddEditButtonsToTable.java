@@ -41,7 +41,7 @@ public class AddEditButtonsToTable {
             Scene scene = new Scene(loader.getRoot());
             stage.setScene(scene);
             EditWorkerInfoController controller = loader.getController();
-            controller.setWorkerInfo(worker);
+            controller.initialize(worker);
             stage.initOwner(btn.getScene().getWindow());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();

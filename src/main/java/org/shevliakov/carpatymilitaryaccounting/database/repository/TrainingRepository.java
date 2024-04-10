@@ -9,6 +9,8 @@ public interface TrainingRepository {
 
   Training getTrainingById(Long id);
 
+  Training getTrainingByName(String name);
+
   void persistTraining(Training training);
 
   void updateTraining(Training training);

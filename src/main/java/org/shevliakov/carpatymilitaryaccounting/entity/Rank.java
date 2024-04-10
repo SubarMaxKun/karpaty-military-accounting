@@ -22,10 +22,7 @@ public class Rank {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "rank")
-  private String rank;
+  @Column(name = "name")
+  private String name;
 
-  public String toString() {
-    return this.rank;
-  }
 }

@@ -1,12 +1,9 @@
 package org.shevliakov.carpatymilitaryaccounting.controller;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
@@ -20,7 +17,7 @@ import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerR
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
-public class MainController implements Initializable {
+public class MainController {
 
   @FXML
   private ChoiceBox<Rank> rankChoiceBox;
@@ -54,8 +51,7 @@ public class MainController implements Initializable {
   private List<Worker> workers;
   private ObservableList<Worker> workersObservableList;
 
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
+  public void initialize() {
     retrieveData();
     fillTable();
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
@@ -65,7 +61,7 @@ public class MainController implements Initializable {
 
   private void fillTable() {
     rankColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
-        workerStringCellDataFeatures.getValue().getRank().getRank()));
+        workerStringCellDataFeatures.getValue().getRank().getName()));
     fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
     birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
     registrationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
@@ -89,5 +85,12 @@ public class MainController implements Initializable {
 
     rankChoiceBox.getItems().add(null);
     rankChoiceBox.getItems().addAll(workerRepository.getRanks());
+  }
+
+  @FXML
+  private void onRefreshButtonClicked() {
+    workers.clear();
+    workersObservableList.clear();
+    initialize();
   }
 }

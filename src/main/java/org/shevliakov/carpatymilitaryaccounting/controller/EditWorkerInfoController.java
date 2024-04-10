@@ -1,8 +1,7 @@
 package org.shevliakov.carpatymilitaryaccounting.controller;
 
+import java.sql.Date;
 import java.util.List;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -11,73 +10,92 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.RankRepositoryImpl;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.TrainingRepositoryImpl;
+import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerRepositoryImpl;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Training;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class EditWorkerInfoController {
   @FXML
-  private TextField FullNameTextField;
+  private TextField fullNameTextField;
   @FXML
-  private ChoiceBox<String> RankChoiceBox;
+  private ChoiceBox<String> rankChoiceBox;
   @FXML
-  private DatePicker BirthDateDatePicker;
+  private DatePicker birthDateDatePicker;
   @FXML
-  private TextField RegistrationNumberTextField;
+  private TextField registrationNumberTextField;
   @FXML
-  private TextField MilitarySpecialtyTextField;
+  private TextField militarySpecialtyTextField;
   @FXML
-  private ChoiceBox TrainingChoiceBox;
+  private ChoiceBox<String> trainingChoiceBox;
   @FXML
-  private TextField AccountingCategoryTextField;
+  private TextField accountingCategoryTextField;
   @FXML
-  private TextField DegreeTextField;
+  private TextField degreeTextField;
   @FXML
-  private TextArea IdInfoTextArea;
+  private TextArea idInfoTextArea;
   @FXML
-  private Button CancelButton;
+  private Button cancelButton;
   @FXML
-  private Button UpdateButton;
+  private Button updateButton;
   @FXML
-  private Button DeleteButton;
+  private Button deleteButton;
 
-  public void initialize() {
+  private Worker worker;
+
+  public void initialize(Worker worker) {
+    this.worker = worker;
+    setWorkerInfo();
+
     List<Rank> ranks = new RankRepositoryImpl().getAllRanks();
     for (Rank rank : ranks) {
-      RankChoiceBox.getItems().add(rank.toString());
+      rankChoiceBox.getItems().add(rank.getName());
     }
 
     List<Training> trainings = new TrainingRepositoryImpl().getAllTraining();
     for (Training training : trainings) {
-      TrainingChoiceBox.getItems().add(training.toString());
+      trainingChoiceBox.getItems().add(training.getName());
     }
 
   }
 
-  public void setWorkerInfo(Worker worker) {
-    FullNameTextField.setText(worker.getFullName());
-    RankChoiceBox.setValue(worker.getRank().toString());
-    BirthDateDatePicker.setValue(worker.getBirthDate().toLocalDate());
-    RegistrationNumberTextField.setText(worker.getRegistrationNumber());
-    MilitarySpecialtyTextField.setText(worker.getMilitarySpecialty());
-    TrainingChoiceBox.setValue(worker.getTraining().toString());
-    AccountingCategoryTextField.setText(worker.getAccountingCategory());
-    DegreeTextField.setText(worker.getDegree());
-    IdInfoTextArea.setText(worker.getIdInfo());
+  private void setWorkerInfo() {
+    fullNameTextField.setText(worker.getFullName());
+    rankChoiceBox.setValue(worker.getRank().getName());
+    birthDateDatePicker.setValue(worker.getBirthDate().toLocalDate());
+    registrationNumberTextField.setText(worker.getRegistrationNumber());
+    militarySpecialtyTextField.setText(worker.getMilitarySpecialty());
+    trainingChoiceBox.setValue(worker.getTraining().getName());
+    accountingCategoryTextField.setText(worker.getAccountingCategory());
+    degreeTextField.setText(worker.getDegree());
+    idInfoTextArea.setText(worker.getIdInfo());
   }
 
   @FXML
   private void onCancelButtonClicked() {
-    CancelButton.getScene().getWindow().hide();
+    cancelButton.getScene().getWindow().hide();
   }
 
   @FXML
   private void onUpdateButtonClicked() {
-    System.out.println("Update button clicked");
+    WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
+    worker.setFullName(fullNameTextField.getText());
+    worker.setRank(new RankRepositoryImpl().getRankByName(rankChoiceBox.getValue()));
+    worker.setBirthDate(Date.valueOf(birthDateDatePicker.getValue()));
+    worker.setRegistrationNumber(registrationNumberTextField.getText());
+    worker.setMilitarySpecialty(militarySpecialtyTextField.getText());
+    worker.setTraining(new TrainingRepositoryImpl().getTrainingByName(trainingChoiceBox.getValue()));
+    worker.setAccountingCategory(accountingCategoryTextField.getText());
+    worker.setDegree(degreeTextField.getText());
+    worker.setIdInfo(idInfoTextArea.getText());
+    workerRepository.updateWorker(worker);
+    updateButton.getScene().getWindow().hide();
   }
 
   @FXML
   private void onDeleteButtonClicked() {
-    System.out.println("Delete button clicked");
+    WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
+    workerRepository.deleteWorkerById(worker.getId());
+    deleteButton.getScene().getWindow().hide();
   }
 }

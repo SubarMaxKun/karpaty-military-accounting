@@ -17,7 +17,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <TextField fx:id="FullNameTextField" prefWidth="200.0" />
+    <TextField fx:id="fullNameTextField" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -28,7 +28,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <ChoiceBox fx:id="RankChoiceBox" prefWidth="200.0" />
+    <ChoiceBox fx:id="rankChoiceBox" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -39,7 +39,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <DatePicker fx:id="BirthDateDatePicker" prefWidth="200.0" />
+    <DatePicker fx:id="birthDateDatePicker" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -50,7 +50,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <TextField fx:id="RegistrationNumberTextField" prefWidth="200.0" />
+    <TextField fx:id="registrationNumberTextField" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -61,7 +61,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <TextField fx:id="MilitarySpecialtyTextField" prefWidth="200.0" />
+    <TextField fx:id="militarySpecialtyTextField" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -72,7 +72,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <ChoiceBox fx:id="TrainingChoiceBox" prefWidth="200.0" />
+    <ChoiceBox fx:id="trainingChoiceBox" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -83,7 +83,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <TextField fx:id="AccountingCategoryTextField" prefWidth="200.0" />
+    <TextField fx:id="accountingCategoryTextField" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -94,7 +94,7 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <TextField fx:id="DegreeTextField" prefWidth="200.0" />
+    <TextField fx:id="degreeTextField" prefWidth="200.0" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
@@ -105,16 +105,16 @@
         <Insets right="5.0" />
       </HBox.margin>
     </Text>
-    <TextArea fx:id="IdInfoTextArea" prefWidth="200.0" wrapText="true" />
+    <TextArea fx:id="idInfoTextArea" prefWidth="200.0" wrapText="true" />
     <VBox.margin>
       <Insets left="40.0" right="40.0" />
     </VBox.margin>
   </HBox>
    <HBox alignment="CENTER" layoutX="50.0" layoutY="338.0" prefWidth="200.0" spacing="10.0">
       <children>
-         <Button fx:id="UpdateButton" mnemonicParsing="false" onAction="#onUpdateButtonClicked" prefWidth="80.0" text="Оновити" />
-         <Button fx:id="DeleteButton" mnemonicParsing="false" onAction="#onDeleteButtonClicked" prefWidth="80.0" text="Видалити" textFill="RED" />
-         <Button fx:id="CancelButton" layoutX="175.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefWidth="80.0" text="Скасувати" />
+         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#onUpdateButtonClicked" prefWidth="80.0" text="Оновити" />
+         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteButtonClicked" prefWidth="80.0" text="Видалити" textFill="RED" />
+         <Button fx:id="cancelButton" layoutX="175.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefWidth="80.0" text="Скасувати" />
       </children>
    </HBox>
 </VBox>

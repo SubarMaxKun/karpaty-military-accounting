@@ -21,6 +21,13 @@ public class TrainingRepositoryImpl implements TrainingRepository {
   }
 
   @Override
+  public Training getTrainingByName(String name) {
+    return entityManager.createQuery("SELECT t FROM Training t WHERE t.name = :name", Training.class)
+        .setParameter("name", name)
+        .getSingleResult();
+  }
+
+  @Override
   public void persistTraining(Training training) {
     if (training.getId() == null) {
       entityManager.persist(training);

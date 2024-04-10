@@ -24,7 +24,4 @@ public class Training {
   @Column(name = "name")
   private String name;
 
-  public String toString() {
-    return this.name;
-  }
 }
