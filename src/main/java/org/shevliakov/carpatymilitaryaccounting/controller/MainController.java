@@ -13,9 +13,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByBirthYear;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByRank;
 import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
-import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerRepositoryImpl;
+import org.shevliakov.carpatymilitaryaccounting.database.config.SpringConfig;
+import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MainController {
 
@@ -47,7 +49,6 @@ public class MainController {
   private TableColumn<?, ?> idInfoColumn;
   @FXML
   private TableColumn<Worker, Button> editColumn;
-
   private List<Worker> workers;
   private ObservableList<Worker> workersObservableList;
 
@@ -75,22 +76,24 @@ public class MainController {
   }
 
   private void retrieveData() {
-    WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
-    workers = workerRepository.getAllWorkers();
+    // initialize Spring context and get WorkerRepository bean
+    var context = new AnnotationConfigApplicationContext(SpringConfig.class);
+    var workerRepository = context.getBean(WorkerRepository.class);
+
+    workers = workerRepository.findAll();
     workersObservableList = workersTableView.getItems();
     workersObservableList.addAll(workers);
 
+    // TODO: implement choice box data initialization
     birthYearChoiceBox.getItems().add(null);
-    birthYearChoiceBox.getItems().addAll(workerRepository.getYearsOfBirth());
+    birthYearChoiceBox.getItems().addAll();
 
     rankChoiceBox.getItems().add(null);
-    rankChoiceBox.getItems().addAll(workerRepository.getRanks());
+    rankChoiceBox.getItems().addAll(workerRepository.getDistinctRanks());
   }
 
   @FXML
   private void onRefreshButtonClicked() {
-    workers.clear();
-    workersObservableList.clear();
-    initialize();
+    // TODO: implement
   }
 }

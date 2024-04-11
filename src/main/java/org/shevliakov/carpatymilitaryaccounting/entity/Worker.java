@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -20,7 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Getter
 public class Worker {
 
   @Id
@@ -28,7 +26,7 @@ public class Worker {
   @Column(name = "id")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "rank")
   private Rank rank;
 
@@ -44,7 +42,7 @@ public class Worker {
   @Column(name = "military_specialty")
   private String militarySpecialty;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "training")
   private Training training;
 

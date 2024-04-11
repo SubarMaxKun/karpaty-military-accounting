@@ -8,9 +8,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.RankRepositoryImpl;
-import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.TrainingRepositoryImpl;
-import org.shevliakov.carpatymilitaryaccounting.database.repository.impl.WorkerRepositoryImpl;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Training;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
@@ -44,7 +41,7 @@ public class EditWorkerInfoController {
   private Worker worker;
 
   public void initialize(Worker worker) {
-    this.worker = worker;
+/*    this.worker = worker;
     setWorkerInfo();
 
     List<Rank> ranks = new RankRepositoryImpl().getAllRanks();
@@ -55,7 +52,7 @@ public class EditWorkerInfoController {
     List<Training> trainings = new TrainingRepositoryImpl().getAllTraining();
     for (Training training : trainings) {
       trainingChoiceBox.getItems().add(training.getName());
-    }
+    }*/
 
   }
 
@@ -76,7 +73,7 @@ public class EditWorkerInfoController {
     cancelButton.getScene().getWindow().hide();
   }
 
-  @FXML
+/*  @FXML
   private void onUpdateButtonClicked() {
     WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
     worker.setFullName(fullNameTextField.getText());
@@ -97,5 +94,5 @@ public class EditWorkerInfoController {
     WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
     workerRepository.deleteWorkerById(worker.getId());
     deleteButton.getScene().getWindow().hide();
-  }
+  }*/
 }
