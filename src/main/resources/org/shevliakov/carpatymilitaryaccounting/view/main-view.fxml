@@ -49,7 +49,6 @@
           <TableColumn fx:id="accountingCategoryColumn" prefWidth="110.0" text="Категорія обліку" />
           <TableColumn fx:id="degreeColumn" prefWidth="110.0" text="Освіта" />
           <TableColumn fx:id="idInfoColumn" prefWidth="110.0" text="Реквізити паспорта" />
-          <TableColumn fx:id="editColumn" prefWidth="110.0" text="Редагувати" />
         </columns>
       </TableView>
     </GridPane>

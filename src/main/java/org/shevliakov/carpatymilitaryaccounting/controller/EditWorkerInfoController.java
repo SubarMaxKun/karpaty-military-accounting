@@ -8,11 +8,20 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.shevliakov.carpatymilitaryaccounting.database.config.SpringConfig;
+import org.shevliakov.carpatymilitaryaccounting.database.repository.RankRepository;
+import org.shevliakov.carpatymilitaryaccounting.database.repository.TrainingRepository;
+import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Training;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class EditWorkerInfoController {
+
+  WorkerRepository workerRepository;
+  RankRepository rankRepository;
+  TrainingRepository trainingRepository;
   @FXML
   private TextField fullNameTextField;
   @FXML
@@ -37,22 +46,26 @@ public class EditWorkerInfoController {
   private Button updateButton;
   @FXML
   private Button deleteButton;
-
   private Worker worker;
 
   public void initialize(Worker worker) {
-/*    this.worker = worker;
+    var context = new AnnotationConfigApplicationContext(SpringConfig.class);
+    workerRepository = context.getBean(WorkerRepository.class);
+    rankRepository = context.getBean(RankRepository.class);
+    trainingRepository = context.getBean(TrainingRepository.class);
+
+    this.worker = worker;
     setWorkerInfo();
 
-    List<Rank> ranks = new RankRepositoryImpl().getAllRanks();
+    List<Rank> ranks = rankRepository.findAll();
     for (Rank rank : ranks) {
       rankChoiceBox.getItems().add(rank.getName());
     }
 
-    List<Training> trainings = new TrainingRepositoryImpl().getAllTraining();
+    List<Training> trainings = trainingRepository.findAll();
     for (Training training : trainings) {
       trainingChoiceBox.getItems().add(training.getName());
-    }*/
+    }
 
   }
 
@@ -73,26 +86,24 @@ public class EditWorkerInfoController {
     cancelButton.getScene().getWindow().hide();
   }
 
-/*  @FXML
+  @FXML
   private void onUpdateButtonClicked() {
-    WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
     worker.setFullName(fullNameTextField.getText());
-    worker.setRank(new RankRepositoryImpl().getRankByName(rankChoiceBox.getValue()));
+    worker.setRank(rankRepository.findByName(rankChoiceBox.getValue()));
     worker.setBirthDate(Date.valueOf(birthDateDatePicker.getValue()));
     worker.setRegistrationNumber(registrationNumberTextField.getText());
     worker.setMilitarySpecialty(militarySpecialtyTextField.getText());
-    worker.setTraining(new TrainingRepositoryImpl().getTrainingByName(trainingChoiceBox.getValue()));
+    worker.setTraining(trainingRepository.findByName(trainingChoiceBox.getValue()));
     worker.setAccountingCategory(accountingCategoryTextField.getText());
     worker.setDegree(degreeTextField.getText());
     worker.setIdInfo(idInfoTextArea.getText());
-    workerRepository.updateWorker(worker);
+    workerRepository.save(worker);
     updateButton.getScene().getWindow().hide();
   }
 
   @FXML
   private void onDeleteButtonClicked() {
-    WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
-    workerRepository.deleteWorkerById(worker.getId());
+    workerRepository.delete(worker);
     deleteButton.getScene().getWindow().hide();
-  }*/
+  }
 }

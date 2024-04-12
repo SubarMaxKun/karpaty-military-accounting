@@ -4,7 +4,6 @@ import java.util.List;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,6 +20,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class MainController {
 
+  WorkerRepository workerRepository;
   @FXML
   private ChoiceBox<Rank> rankChoiceBox;
   @FXML
@@ -47,17 +47,19 @@ public class MainController {
   private TableColumn<?, ?> degreeColumn;
   @FXML
   private TableColumn<?, ?> idInfoColumn;
-  @FXML
-  private TableColumn<Worker, Button> editColumn;
   private List<Worker> workers;
   private ObservableList<Worker> workersObservableList;
 
   public void initialize() {
+    var context = new AnnotationConfigApplicationContext(SpringConfig.class);
+    workerRepository = context.getBean(WorkerRepository.class);
+
     retrieveData();
     fillTable();
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
     new FilterWorkerByBirthYear().filter(birthYearChoiceBox, workers, workersObservableList);
     new FilterWorkerByRank().filter(rankChoiceBox, workers, workersObservableList);
+    new AddRowClickHandling().rowClickHandling(workersTableView);
   }
 
   private void fillTable() {
@@ -72,14 +74,10 @@ public class MainController {
     accountingCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("accountingCategory"));
     degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
     idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));
-    new AddEditButtonsToTable().addEditButtonsToTable(editColumn);
   }
 
   private void retrieveData() {
     // initialize Spring context and get WorkerRepository bean
-    var context = new AnnotationConfigApplicationContext(SpringConfig.class);
-    var workerRepository = context.getBean(WorkerRepository.class);
-
     workers = workerRepository.findAll();
     workersObservableList = workersTableView.getItems();
     workersObservableList.addAll(workers);
@@ -94,6 +92,11 @@ public class MainController {
 
   @FXML
   private void onRefreshButtonClicked() {
-    // TODO: implement
+    workers.clear();
+    workersObservableList.clear();
+    rankChoiceBox.getItems().clear();
+    birthYearChoiceBox.getItems().clear();
+    initialize();
+    workersTableView.refresh();
   }
 }

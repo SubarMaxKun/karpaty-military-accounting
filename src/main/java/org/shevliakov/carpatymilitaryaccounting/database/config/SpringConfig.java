@@ -2,6 +2,7 @@ package org.shevliakov.carpatymilitaryaccounting.database.config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories("org.shevliakov.carpatymilitaryaccounting.database.repository")
 @ComponentScan("org.shevliakov.carpatymilitaryaccounting")
 public class SpringConfig {
+
+  @Bean
+  public AnnotationConfigApplicationContext applicationContext() {
+    return new AnnotationConfigApplicationContext();
+  }
 
   @Bean
   public DataSource dataSource() {
