@@ -1,6 +1,6 @@
 package org.shevliakov.carpatymilitaryaccounting.database.repository;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface WorkerRepository extends JpaRepository<Worker, Long> {
 
   @Query("SELECT DISTINCT w.birthDate FROM Worker w")
-  List<Date> getDistinctBirthYears();
+  List<Date> getDistinctBirthDates();
 
   @Query("SELECT DISTINCT w.rank FROM Worker w")
   List<Rank> getDistinctRanks();

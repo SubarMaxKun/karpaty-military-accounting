@@ -1,6 +1,5 @@
 package org.shevliakov.carpatymilitaryaccounting.controller;
 
-import jakarta.transaction.Transactional;
 import java.util.List;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;

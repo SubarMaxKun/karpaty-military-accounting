@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByBirthYear;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByRank;
 import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
+import org.shevliakov.carpatymilitaryaccounting.controller.util.AddRowClickHandling;
+import org.shevliakov.carpatymilitaryaccounting.controller.util.ConvertDatesToYears;
 import org.shevliakov.carpatymilitaryaccounting.database.config.SpringConfig;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
@@ -54,41 +56,40 @@ public class MainController {
     var context = new AnnotationConfigApplicationContext(SpringConfig.class);
     workerRepository = context.getBean(WorkerRepository.class);
 
-    retrieveData();
-    fillTable();
+    loadData();
+    setupTableColumns();
+
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
-    new FilterWorkerByBirthYear().filter(birthYearChoiceBox, workers, workersObservableList);
-    new FilterWorkerByRank().filter(rankChoiceBox, workers, workersObservableList);
+    new FilterWorkerByBirthYear().filter(birthYearChoiceBox, rankChoiceBox, workers, workersObservableList);
+    new FilterWorkerByRank().filter(rankChoiceBox, birthYearChoiceBox, workers, workersObservableList);
     new AddRowClickHandling().rowClickHandling(workersTableView);
   }
 
-  private void fillTable() {
-    rankColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
-        workerStringCellDataFeatures.getValue().getRank().getName()));
+  private void setupTableColumns() {
+    rankColumn.setCellValueFactory(workerStringCellDataFeatures ->
+        new ReadOnlyStringWrapper(workerStringCellDataFeatures.getValue().getRank().getName()));
     fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
     birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
     registrationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
     militarySpecialtyColumn.setCellValueFactory(new PropertyValueFactory<>("militarySpecialty"));
-    trainingColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
-        workerStringCellDataFeatures.getValue().getTraining().getName()));
+    trainingColumn.setCellValueFactory(workerStringCellDataFeatures ->
+        new ReadOnlyStringWrapper(workerStringCellDataFeatures.getValue().getTraining().getName()));
     accountingCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("accountingCategory"));
     degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
     idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));
   }
 
-  private void retrieveData() {
-    // initialize Spring context and get WorkerRepository bean
+  private void loadData() {
     workers = workerRepository.findAll();
     workersObservableList = workersTableView.getItems();
     workersObservableList.addAll(workers);
 
-    // TODO: implement choice box data initialization
-    birthYearChoiceBox.getItems().add(null);
-    birthYearChoiceBox.getItems().addAll();
+    List<Integer> years = ConvertDatesToYears.convert(workerRepository.getDistinctBirthDates());
+    birthYearChoiceBox.getItems().addAll(years);
 
-    rankChoiceBox.getItems().add(null);
     rankChoiceBox.getItems().addAll(workerRepository.getDistinctRanks());
   }
+
 
   @FXML
   private void onRefreshButtonClicked() {

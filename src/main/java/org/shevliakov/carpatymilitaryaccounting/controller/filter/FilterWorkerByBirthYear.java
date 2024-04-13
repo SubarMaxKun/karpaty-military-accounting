@@ -4,12 +4,13 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
 import javafx.util.StringConverter;
-import org.hibernate.jdbc.Work;
+import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class FilterWorkerByBirthYear {
 
-  public void filter(ChoiceBox<Integer> yearChoiceBox, List<Worker> workers,
+  public void filter(ChoiceBox<Integer> yearChoiceBox, ChoiceBox<Rank> rankChoiceBox,
+      List<Worker> workers,
       ObservableList<Worker> workersObservableList) {
     yearChoiceBox.setConverter(new StringConverter<>() {
       @Override
@@ -33,6 +34,7 @@ public class FilterWorkerByBirthYear {
             workersObservableList.addAll(workers);
             workersObservableList.removeIf(
                 worker -> worker.getBirthDate().toLocalDate().getYear() != newValue);
+            rankChoiceBox.getSelectionModel().clearSelection();
           }
         });
   }

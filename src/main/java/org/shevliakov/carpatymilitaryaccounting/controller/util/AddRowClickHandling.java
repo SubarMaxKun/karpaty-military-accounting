@@ -1,4 +1,4 @@
-package org.shevliakov.carpatymilitaryaccounting.controller;
+package org.shevliakov.carpatymilitaryaccounting.controller.util;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.shevliakov.carpatymilitaryaccounting.controller.EditWorkerInfoController;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class AddRowClickHandling {
@@ -35,7 +36,6 @@ public class AddRowClickHandling {
           Scene scene = new Scene(loader.getRoot());
           stage.setScene(scene);
           EditWorkerInfoController controller = loader.getController();
-          controller.initialize(clickedRow);
           controller.initialize(clickedRow);
           stage.initOwner(row.getScene().getWindow());
           stage.initModality(Modality.APPLICATION_MODAL);

@@ -8,7 +8,9 @@ import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
 public class FilterWorkerByRank {
-  public void filter(ChoiceBox<Rank> rankChoiceBox, List<Worker> workers,
+
+  public void filter(ChoiceBox<Rank> rankChoiceBox, ChoiceBox<Integer> birthYearChoiceBox,
+      List<Worker> workers,
       ObservableList<Worker> workersObservableList) {
     rankChoiceBox.setConverter(new StringConverter<>() {
       @Override
@@ -31,6 +33,7 @@ public class FilterWorkerByRank {
             workersObservableList.clear();
             workersObservableList.addAll(workers);
             workersObservableList.removeIf(worker -> !worker.getRank().equals(newValue));
+            birthYearChoiceBox.getSelectionModel().clearSelection();
           }
         });
   }
