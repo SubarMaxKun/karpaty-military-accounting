@@ -9,11 +9,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Window;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByBirthYear;
 import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByRank;
 import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
 import org.shevliakov.carpatymilitaryaccounting.controller.util.AddRowClickHandling;
 import org.shevliakov.carpatymilitaryaccounting.controller.util.ConvertDatesToYears;
+import org.shevliakov.carpatymilitaryaccounting.controller.util.OpenAddWorkerInfo;
 import org.shevliakov.carpatymilitaryaccounting.database.config.SpringConfig;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
@@ -60,20 +62,22 @@ public class MainController {
     setupTableColumns();
 
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
-    new FilterWorkerByBirthYear().filter(birthYearChoiceBox, rankChoiceBox, workers, workersObservableList);
-    new FilterWorkerByRank().filter(rankChoiceBox, birthYearChoiceBox, workers, workersObservableList);
+    new FilterWorkerByBirthYear().filter(birthYearChoiceBox, rankChoiceBox, workers,
+        workersObservableList);
+    new FilterWorkerByRank().filter(rankChoiceBox, birthYearChoiceBox, workers,
+        workersObservableList);
     new AddRowClickHandling().rowClickHandling(workersTableView);
   }
 
   private void setupTableColumns() {
-    rankColumn.setCellValueFactory(workerStringCellDataFeatures ->
-        new ReadOnlyStringWrapper(workerStringCellDataFeatures.getValue().getRank().getName()));
+    rankColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
+        workerStringCellDataFeatures.getValue().getRank().getName()));
     fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
     birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
     registrationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
     militarySpecialtyColumn.setCellValueFactory(new PropertyValueFactory<>("militarySpecialty"));
-    trainingColumn.setCellValueFactory(workerStringCellDataFeatures ->
-        new ReadOnlyStringWrapper(workerStringCellDataFeatures.getValue().getTraining().getName()));
+    trainingColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
+        workerStringCellDataFeatures.getValue().getTraining().getName()));
     accountingCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("accountingCategory"));
     degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
     idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));
@@ -85,8 +89,10 @@ public class MainController {
     workersObservableList.addAll(workers);
 
     List<Integer> years = ConvertDatesToYears.convert(workerRepository.getDistinctBirthDates());
+    birthYearChoiceBox.getItems().add(null);
     birthYearChoiceBox.getItems().addAll(years);
 
+    rankChoiceBox.getItems().add(null);
     rankChoiceBox.getItems().addAll(workerRepository.getDistinctRanks());
   }
 
@@ -99,5 +105,10 @@ public class MainController {
     birthYearChoiceBox.getItems().clear();
     initialize();
     workersTableView.refresh();
+  }
+
+  @FXML
+  private void onAddWorkerButtonClicked() {
+    new OpenAddWorkerInfo().open(Window.getWindows().getFirst());
   }
 }

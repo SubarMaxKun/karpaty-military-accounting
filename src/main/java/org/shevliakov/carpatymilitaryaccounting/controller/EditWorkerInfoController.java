@@ -43,19 +43,24 @@ public class EditWorkerInfoController {
   @FXML
   private Button cancelButton;
   @FXML
-  private Button updateButton;
+  private Button commitButton;
   @FXML
   private Button deleteButton;
   private Worker worker;
 
   public void initialize(Worker worker) {
+    if (worker != null) {
+      this.worker = worker;
+      setWorkerInfo();
+    } else {
+      commitButton.setText("Додати");
+      deleteButton.setVisible(false);
+    }
+
     var context = new AnnotationConfigApplicationContext(SpringConfig.class);
     workerRepository = context.getBean(WorkerRepository.class);
     rankRepository = context.getBean(RankRepository.class);
     trainingRepository = context.getBean(TrainingRepository.class);
-
-    this.worker = worker;
-    setWorkerInfo();
 
     List<Rank> ranks = rankRepository.findAll();
     for (Rank rank : ranks) {
@@ -87,7 +92,7 @@ public class EditWorkerInfoController {
   }
 
   @FXML
-  private void onUpdateButtonClicked() {
+  private void onCommitButtonClicked() {
     worker.setFullName(fullNameTextField.getText());
     worker.setRank(rankRepository.findByName(rankChoiceBox.getValue()));
     worker.setBirthDate(Date.valueOf(birthDateDatePicker.getValue()));
@@ -98,7 +103,7 @@ public class EditWorkerInfoController {
     worker.setDegree(degreeTextField.getText());
     worker.setIdInfo(idInfoTextArea.getText());
     workerRepository.save(worker);
-    updateButton.getScene().getWindow().hide();
+    commitButton.getScene().getWindow().hide();
   }
 
   @FXML
