@@ -30,11 +30,11 @@ public class FilterWorkerByBirthYear {
             workersObservableList.clear();
             workersObservableList.addAll(workers);
           } else {
+            rankChoiceBox.getSelectionModel().clearSelection();
             workersObservableList.clear();
             workersObservableList.addAll(workers);
             workersObservableList.removeIf(
                 worker -> worker.getBirthDate().toLocalDate().getYear() != newValue);
-            rankChoiceBox.getSelectionModel().clearSelection();
           }
         });
   }

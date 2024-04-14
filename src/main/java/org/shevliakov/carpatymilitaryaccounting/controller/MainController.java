@@ -1,20 +1,12 @@
 package org.shevliakov.carpatymilitaryaccounting.controller;
 
-import java.util.List;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Window;
-import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByBirthYear;
-import org.shevliakov.carpatymilitaryaccounting.controller.filter.FilterWorkerByRank;
-import org.shevliakov.carpatymilitaryaccounting.controller.search.SearchWorkerByName;
-import org.shevliakov.carpatymilitaryaccounting.controller.util.AddRowClickHandling;
-import org.shevliakov.carpatymilitaryaccounting.controller.util.ConvertDatesToYears;
+import org.shevliakov.carpatymilitaryaccounting.controller.subcontroller.WorkerSubController;
 import org.shevliakov.carpatymilitaryaccounting.controller.util.OpenAddWorkerInfo;
 import org.shevliakov.carpatymilitaryaccounting.database.config.SpringConfig;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
@@ -24,7 +16,14 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class MainController {
 
-  WorkerRepository workerRepository;
+  @FXML
+  public TableColumn<?, ?> rankNameColumn;
+  @FXML
+  public TableColumn<?, ?> deleteRankColumn;
+  @FXML
+  private TableView<Rank> ranksTableView;
+  @FXML
+  private TextField rankSearchTextField;
   @FXML
   private ChoiceBox<Rank> rankChoiceBox;
   @FXML
@@ -51,64 +50,41 @@ public class MainController {
   private TableColumn<?, ?> degreeColumn;
   @FXML
   private TableColumn<?, ?> idInfoColumn;
-  private List<Worker> workers;
-  private ObservableList<Worker> workersObservableList;
+
+  private WorkerSubController workerSubController;
 
   public void initialize() {
     var context = new AnnotationConfigApplicationContext(SpringConfig.class);
-    workerRepository = context.getBean(WorkerRepository.class);
 
-    loadData();
-    setupTableColumns();
+    workerSubController = new WorkerSubController(rankChoiceBox, birthYearChoiceBox,
+        nameSearchTextField, workersTableView, rankColumn, fullNameColumn, birthDateColumn,
+        registrationNumberColumn, militarySpecialtyColumn, trainingColumn, accountingCategoryColumn,
+        degreeColumn, idInfoColumn, context.getBean(WorkerRepository.class));
 
-    new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
-    new FilterWorkerByBirthYear().filter(birthYearChoiceBox, rankChoiceBox, workers,
-        workersObservableList);
-    new FilterWorkerByRank().filter(rankChoiceBox, birthYearChoiceBox, workers,
-        workersObservableList);
-    new AddRowClickHandling().rowClickHandling(workersTableView);
+    setupWorkersTab();
   }
 
-  private void setupTableColumns() {
-    rankColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
-        workerStringCellDataFeatures.getValue().getRank().getName()));
-    fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-    birthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
-    registrationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
-    militarySpecialtyColumn.setCellValueFactory(new PropertyValueFactory<>("militarySpecialty"));
-    trainingColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
-        workerStringCellDataFeatures.getValue().getTraining().getName()));
-    accountingCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("accountingCategory"));
-    degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
-    idInfoColumn.setCellValueFactory(new PropertyValueFactory<>("idInfo"));
+  private void setupWorkersTab() {
+    workerSubController.loadData();
+    workerSubController.setupTableColumns();
+    workerSubController.setupFiltering();
   }
-
-  private void loadData() {
-    workers = workerRepository.findAll();
-    workersObservableList = workersTableView.getItems();
-    workersObservableList.addAll(workers);
-
-    List<Integer> years = ConvertDatesToYears.convert(workerRepository.getDistinctBirthDates());
-    birthYearChoiceBox.getItems().add(null);
-    birthYearChoiceBox.getItems().addAll(years);
-
-    rankChoiceBox.getItems().add(null);
-    rankChoiceBox.getItems().addAll(workerRepository.getDistinctRanks());
-  }
-
 
   @FXML
-  private void onRefreshButtonClicked() {
-    workers.clear();
-    workersObservableList.clear();
-    rankChoiceBox.getItems().clear();
-    birthYearChoiceBox.getItems().clear();
-    initialize();
-    workersTableView.refresh();
+  private void onRefreshWorkersButtonClicked() {
+    workerSubController.refreshData();
   }
 
   @FXML
   private void onAddWorkerButtonClicked() {
     new OpenAddWorkerInfo().open(Window.getWindows().getFirst());
+  }
+
+  @FXML
+  private void onRefreshRanksButtonClicked() {
+  }
+
+  @FXML
+  public void onAddRankButtonClicked() {
   }
 }

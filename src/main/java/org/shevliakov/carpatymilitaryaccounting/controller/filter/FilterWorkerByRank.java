@@ -30,10 +30,10 @@ public class FilterWorkerByRank {
             workersObservableList.clear();
             workersObservableList.addAll(workers);
           } else {
+            birthYearChoiceBox.getSelectionModel().clearSelection();
             workersObservableList.clear();
             workersObservableList.addAll(workers);
             workersObservableList.removeIf(worker -> !worker.getRank().equals(newValue));
-            birthYearChoiceBox.getSelectionModel().clearSelection();
           }
         });
   }
