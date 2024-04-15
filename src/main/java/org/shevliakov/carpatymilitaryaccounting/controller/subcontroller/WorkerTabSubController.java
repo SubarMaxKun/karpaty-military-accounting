@@ -3,7 +3,6 @@ package org.shevliakov.carpatymilitaryaccounting.controller.subcontroller;
 import java.util.List;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,40 +17,28 @@ import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerReposi
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
-public class WorkerSubController {
+public class WorkerTabSubController {
 
-  @FXML
   private final ChoiceBox<Rank> rankChoiceBox;
-  @FXML
   private final ChoiceBox<Integer> birthYearChoiceBox;
-  @FXML
   private final TextField nameSearchTextField;
-  @FXML
   private final TableView<Worker> workersTableView;
-  @FXML
   private final TableColumn<Worker, String> rankColumn;
-  @FXML
   private final TableColumn<?, ?> fullNameColumn;
-  @FXML
   private final TableColumn<?, ?> birthDateColumn;
-  @FXML
   private final TableColumn<?, ?> registrationNumberColumn;
-  @FXML
   private final TableColumn<?, ?> militarySpecialtyColumn;
-  @FXML
   private final TableColumn<Worker, String> trainingColumn;
-  @FXML
   private final TableColumn<?, ?> accountingCategoryColumn;
-  @FXML
   private final TableColumn<?, ?> degreeColumn;
-  @FXML
   private final TableColumn<?, ?> idInfoColumn;
   WorkerRepository workerRepository;
   private List<Worker> workers;
   private ObservableList<Worker> workersObservableList;
 
 
-  public WorkerSubController(ChoiceBox<Rank> rankChoiceBox, ChoiceBox<Integer> birthYearChoiceBox,
+  public WorkerTabSubController(ChoiceBox<Rank> rankChoiceBox,
+      ChoiceBox<Integer> birthYearChoiceBox,
       TextField nameSearchTextField, TableView<Worker> workersTableView,
       TableColumn<Worker, String> rankColumn, TableColumn<?, ?> fullNameColumn,
       TableColumn<?, ?> birthDateColumn, TableColumn<?, ?> registrationNumberColumn,

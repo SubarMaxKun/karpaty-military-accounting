@@ -19,9 +19,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class EditWorkerInfoController {
 
-  WorkerRepository workerRepository;
-  RankRepository rankRepository;
-  TrainingRepository trainingRepository;
   @FXML
   private TextField fullNameTextField;
   @FXML
@@ -47,6 +44,9 @@ public class EditWorkerInfoController {
   @FXML
   private Button deleteButton;
   private Worker worker;
+  private WorkerRepository workerRepository;
+  private RankRepository rankRepository;
+  private TrainingRepository trainingRepository;
 
   public void initialize(Worker worker) {
     if (worker != null) {
@@ -71,7 +71,6 @@ public class EditWorkerInfoController {
     for (Training training : trainings) {
       trainingChoiceBox.getItems().add(training.getName());
     }
-
   }
 
   private void setWorkerInfo() {

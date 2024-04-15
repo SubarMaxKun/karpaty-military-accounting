@@ -88,7 +88,6 @@
         GridPane.rowIndex="1">
         <columns>
           <TableColumn fx:id="rankNameColumn" prefWidth="75.0" text="Звання"/>
-          <TableColumn fx:id="deleteRankColumn" prefWidth="75.0" text="Видалити"/>
         </columns>
       </TableView>
     </GridPane>

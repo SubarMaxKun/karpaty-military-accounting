@@ -6,9 +6,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
-import org.shevliakov.carpatymilitaryaccounting.controller.subcontroller.WorkerSubController;
-import org.shevliakov.carpatymilitaryaccounting.controller.util.OpenAddWorkerInfo;
+import org.shevliakov.carpatymilitaryaccounting.controller.subcontroller.RankTabSubController;
+import org.shevliakov.carpatymilitaryaccounting.controller.subcontroller.WorkerTabSubController;
+import org.shevliakov.carpatymilitaryaccounting.controller.util.OpenEditWorkerInfoStage;
 import org.shevliakov.carpatymilitaryaccounting.database.config.SpringConfig;
+import org.shevliakov.carpatymilitaryaccounting.database.repository.RankRepository;
 import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerRepository;
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
@@ -18,8 +20,6 @@ public class MainController {
 
   @FXML
   public TableColumn<?, ?> rankNameColumn;
-  @FXML
-  public TableColumn<?, ?> deleteRankColumn;
   @FXML
   private TableView<Rank> ranksTableView;
   @FXML
@@ -50,41 +50,54 @@ public class MainController {
   private TableColumn<?, ?> degreeColumn;
   @FXML
   private TableColumn<?, ?> idInfoColumn;
-
-  private WorkerSubController workerSubController;
+  private WorkerTabSubController workerTabSubController;
+  private RankTabSubController rankTabSubController;
 
   public void initialize() {
     var context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
-    workerSubController = new WorkerSubController(rankChoiceBox, birthYearChoiceBox,
+    workerTabSubController = new WorkerTabSubController(rankChoiceBox, birthYearChoiceBox,
         nameSearchTextField, workersTableView, rankColumn, fullNameColumn, birthDateColumn,
         registrationNumberColumn, militarySpecialtyColumn, trainingColumn, accountingCategoryColumn,
         degreeColumn, idInfoColumn, context.getBean(WorkerRepository.class));
 
     setupWorkersTab();
+
+    rankTabSubController = new RankTabSubController(ranksTableView, rankNameColumn,
+        rankSearchTextField,
+        context.getBean(RankRepository.class));
+
+    setupRanksTab();
   }
 
   private void setupWorkersTab() {
-    workerSubController.loadData();
-    workerSubController.setupTableColumns();
-    workerSubController.setupFiltering();
+    workerTabSubController.loadData();
+    workerTabSubController.setupTableColumns();
+    workerTabSubController.setupFiltering();
+  }
+
+  private void setupRanksTab() {
+    rankTabSubController.loadData();
+    rankTabSubController.setupTableColumns();
   }
 
   @FXML
   private void onRefreshWorkersButtonClicked() {
-    workerSubController.refreshData();
+    workerTabSubController.refreshData();
   }
 
   @FXML
   private void onAddWorkerButtonClicked() {
-    new OpenAddWorkerInfo().open(Window.getWindows().getFirst());
+    new OpenEditWorkerInfoStage().openStage(Window.getWindows().getFirst(), null);
   }
 
   @FXML
   private void onRefreshRanksButtonClicked() {
+    rankTabSubController.refreshData();
   }
 
   @FXML
   public void onAddRankButtonClicked() {
+    rankTabSubController.addRank();
   }
 }

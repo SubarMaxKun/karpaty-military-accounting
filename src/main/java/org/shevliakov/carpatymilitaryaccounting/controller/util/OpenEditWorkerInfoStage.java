@@ -7,13 +7,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.shevliakov.carpatymilitaryaccounting.controller.EditWorkerInfoController;
+import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
-public class OpenAddWorkerInfo {
+public class OpenEditWorkerInfoStage {
 
-  public void open(Window owner) {
+  public void openStage(Window owner, Worker worker) {
     Stage stage = new Stage();
     stage.setResizable(false);
-    stage.setTitle("Додавання інформації про працівника");
+    stage.setTitle("Інформація про працівника");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getResource(
         "/org/shevliakov/carpatymilitaryaccounting/view/edit-worker-info-view.fxml"));
@@ -25,10 +26,9 @@ public class OpenAddWorkerInfo {
     Scene scene = new Scene(loader.getRoot());
     stage.setScene(scene);
     EditWorkerInfoController controller = loader.getController();
-    controller.initialize(null);
+    controller.initialize(worker);
     stage.initOwner(owner);
     stage.initModality(Modality.APPLICATION_MODAL);
     stage.showAndWait();
   }
-
 }
