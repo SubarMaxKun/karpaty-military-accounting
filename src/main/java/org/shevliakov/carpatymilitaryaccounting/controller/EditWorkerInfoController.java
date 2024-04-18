@@ -17,6 +17,9 @@ import org.shevliakov.carpatymilitaryaccounting.entity.Training;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+/**
+ * Class controller for edit worker info window.
+ */
 public class EditWorkerInfoController {
 
   @FXML
@@ -48,6 +51,11 @@ public class EditWorkerInfoController {
   private RankRepository rankRepository;
   private TrainingRepository trainingRepository;
 
+  /**
+   * Initialize the controller.
+   *
+   * @param worker the worker to edit.
+   */
   public void initialize(Worker worker) {
     if (worker != null) {
       this.worker = worker;
@@ -73,6 +81,9 @@ public class EditWorkerInfoController {
     }
   }
 
+  /**
+   * Set worker info to the corresponding fields.
+   */
   private void setWorkerInfo() {
     fullNameTextField.setText(worker.getFullName());
     rankChoiceBox.setValue(worker.getRank().getName());
@@ -85,26 +96,36 @@ public class EditWorkerInfoController {
     idInfoTextArea.setText(worker.getIdInfo());
   }
 
+  /**
+   * Handle cancel button click event.
+   */
   @FXML
   private void onCancelButtonClicked() {
     cancelButton.getScene().getWindow().hide();
   }
 
+  /**
+   * Handle commit button click event.
+   */
   @FXML
   private void onCommitButtonClicked() {
-    worker.setFullName(fullNameTextField.getText());
-    worker.setRank(rankRepository.findByName(rankChoiceBox.getValue()));
-    worker.setBirthDate(Date.valueOf(birthDateDatePicker.getValue()));
-    worker.setRegistrationNumber(registrationNumberTextField.getText());
-    worker.setMilitarySpecialty(militarySpecialtyTextField.getText());
-    worker.setTraining(trainingRepository.findByName(trainingChoiceBox.getValue()));
-    worker.setAccountingCategory(accountingCategoryTextField.getText());
-    worker.setDegree(degreeTextField.getText());
-    worker.setIdInfo(idInfoTextArea.getText());
-    workerRepository.save(worker);
+    Worker workerToPersist = new Worker();
+    workerToPersist.setFullName(fullNameTextField.getText());
+    workerToPersist.setRank(rankRepository.findByName(rankChoiceBox.getValue()));
+    workerToPersist.setBirthDate(Date.valueOf(birthDateDatePicker.getValue()));
+    workerToPersist.setRegistrationNumber(registrationNumberTextField.getText());
+    workerToPersist.setMilitarySpecialty(militarySpecialtyTextField.getText());
+    workerToPersist.setTraining(trainingRepository.findByName(trainingChoiceBox.getValue()));
+    workerToPersist.setAccountingCategory(accountingCategoryTextField.getText());
+    workerToPersist.setDegree(degreeTextField.getText());
+    workerToPersist.setIdInfo(idInfoTextArea.getText());
+    workerRepository.save(workerToPersist);
     commitButton.getScene().getWindow().hide();
   }
 
+  /**
+   * Handle delete button click event.
+   */
   @FXML
   private void onDeleteButtonClicked() {
     workerRepository.delete(worker);

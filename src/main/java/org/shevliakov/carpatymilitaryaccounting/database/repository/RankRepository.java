@@ -4,6 +4,9 @@ import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository for Rank entity.
+ */
 @Repository
 public interface RankRepository extends JpaRepository<Rank, Long> {
 

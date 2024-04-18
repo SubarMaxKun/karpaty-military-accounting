@@ -16,6 +16,9 @@ import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+/**
+ * Main controller for the main window of the application.
+ */
 public class MainController {
 
   @FXML
@@ -53,6 +56,9 @@ public class MainController {
   private WorkerTabSubController workerTabSubController;
   private RankTabSubController rankTabSubController;
 
+  /**
+   * Initializes the controller.
+   */
   public void initialize() {
     var context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
@@ -64,38 +70,55 @@ public class MainController {
     setupWorkersTab();
 
     rankTabSubController = new RankTabSubController(ranksTableView, rankNameColumn,
-        rankSearchTextField,
-        context.getBean(RankRepository.class));
+        rankSearchTextField, context.getBean(RankRepository.class));
 
     setupRanksTab();
   }
 
+  /**
+   * Sets up the workers tab.
+   */
   private void setupWorkersTab() {
     workerTabSubController.loadData();
     workerTabSubController.setupTableColumns();
     workerTabSubController.setupFiltering();
   }
 
+  /**
+   * Sets up the ranks tab.
+   */
   private void setupRanksTab() {
     rankTabSubController.loadData();
     rankTabSubController.setupTableColumns();
   }
 
+  /**
+   * Refreshes the data in the workers tab.
+   */
   @FXML
   private void onRefreshWorkersButtonClicked() {
     workerTabSubController.refreshData();
   }
 
+  /**
+   * Opens the window for adding a new worker.
+   */
   @FXML
   private void onAddWorkerButtonClicked() {
     new OpenEditWorkerInfoStage().openStage(Window.getWindows().getFirst(), null);
   }
 
+  /**
+   * Refreshes the data in the ranks tab.
+   */
   @FXML
   private void onRefreshRanksButtonClicked() {
     rankTabSubController.refreshData();
   }
 
+  /**
+   * Adds a new rank.
+   */
   @FXML
   public void onAddRankButtonClicked() {
     rankTabSubController.addRank();

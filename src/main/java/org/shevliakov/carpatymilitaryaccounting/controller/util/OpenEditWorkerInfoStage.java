@@ -9,8 +9,17 @@ import javafx.stage.Window;
 import org.shevliakov.carpatymilitaryaccounting.controller.EditWorkerInfoController;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
+/**
+ * Utility class for opening the stage for editing worker information.
+ */
 public class OpenEditWorkerInfoStage {
 
+  /**
+   * Opens the stage for editing worker information.
+   *
+   * @param owner  the owner window
+   * @param worker the worker to edit
+   */
   public void openStage(Window owner, Worker worker) {
     Stage stage = new Stage();
     stage.setResizable(false);

@@ -16,17 +16,31 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Spring configuration class. Contains beans for: - Application context - Data source - Entity
+ * manager factory - Transaction manager - Exception translation
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("org.shevliakov.carpatymilitaryaccounting.database.repository")
 @ComponentScan("org.shevliakov.carpatymilitaryaccounting")
 public class SpringConfig {
 
+  /**
+   * Bean for application context.
+   *
+   * @return application context
+   */
   @Bean
   public AnnotationConfigApplicationContext applicationContext() {
     return new AnnotationConfigApplicationContext();
   }
 
+  /**
+   * Bean for data source.
+   *
+   * @return data source
+   */
   @Bean
   public DataSource dataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -37,10 +51,14 @@ public class SpringConfig {
     return dataSource;
   }
 
+  /**
+   * Bean for entity manager factory.
+   *
+   * @return entity manager factory
+   */
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-    LocalContainerEntityManagerFactoryBean em
-        = new LocalContainerEntityManagerFactoryBean();
+    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource(dataSource());
     em.setPackagesToScan("org.shevliakov.carpatymilitaryaccounting.entity");
 
@@ -51,6 +69,11 @@ public class SpringConfig {
     return em;
   }
 
+  /**
+   * Bean for transaction manager.
+   *
+   * @return transaction manager
+   */
   @Bean
   public PlatformTransactionManager transactionManager() {
     JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -59,11 +82,21 @@ public class SpringConfig {
     return transactionManager;
   }
 
+  /**
+   * Bean for exception translation.
+   *
+   * @return exception translation
+   */
   @Bean
   public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
     return new PersistenceExceptionTranslationPostProcessor();
   }
 
+  /**
+   * Additional properties for entity manager factory.
+   *
+   * @return additional properties
+   */
   Properties additionalProperties() {
     Properties properties = new Properties();
     properties.setProperty("hibernate.hbm2ddl.auto", "none");

@@ -5,8 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
+/**
+ * Class for searching worker by full name.
+ */
 public class SearchWorkerByName {
 
+  /**
+   * Method for searching worker by full name.
+   *
+   * @param nameTextField         TextField for entering the full name of the worker.
+   * @param workers               List of workers.
+   * @param workersObservableList ObservableList of workers.
+   */
   public void search(TextField nameTextField, List<Worker> workers,
       ObservableList<Worker> workersObservableList) {
     nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {

@@ -17,6 +17,9 @@ import org.shevliakov.carpatymilitaryaccounting.database.repository.WorkerReposi
 import org.shevliakov.carpatymilitaryaccounting.entity.Rank;
 import org.shevliakov.carpatymilitaryaccounting.entity.Worker;
 
+/**
+ * WorkerTabSubController for Worker tab.
+ */
 public class WorkerTabSubController {
 
   private final ChoiceBox<Rank> rankChoiceBox;
@@ -36,15 +39,32 @@ public class WorkerTabSubController {
   private List<Worker> workers;
   private ObservableList<Worker> workersObservableList;
 
-
+  /**
+   * Constructor.
+   *
+   * @param rankChoiceBox            ChoiceBox for rank.
+   * @param birthYearChoiceBox       ChoiceBox for birth year.
+   * @param nameSearchTextField      TextField for name search.
+   * @param workersTableView         TableView for workers.
+   * @param rankColumn               TableColumn for rank.
+   * @param fullNameColumn           TableColumn for full name.
+   * @param birthDateColumn          TableColumn for birthdate.
+   * @param registrationNumberColumn TableColumn for registration number.
+   * @param militarySpecialtyColumn  TableColumn for military specialty.
+   * @param trainingColumn           TableColumn for training.
+   * @param accountingCategoryColumn TableColumn for accounting category.
+   * @param degreeColumn             TableColumn for degree.
+   * @param idInfoColumn             TableColumn for ID info.
+   * @param workerRepository         Worker repository.
+   */
   public WorkerTabSubController(ChoiceBox<Rank> rankChoiceBox,
-      ChoiceBox<Integer> birthYearChoiceBox,
-      TextField nameSearchTextField, TableView<Worker> workersTableView,
-      TableColumn<Worker, String> rankColumn, TableColumn<?, ?> fullNameColumn,
-      TableColumn<?, ?> birthDateColumn, TableColumn<?, ?> registrationNumberColumn,
-      TableColumn<?, ?> militarySpecialtyColumn, TableColumn<Worker, String> trainingColumn,
-      TableColumn<?, ?> accountingCategoryColumn, TableColumn<?, ?> degreeColumn,
-      TableColumn<?, ?> idInfoColumn, WorkerRepository workerRepository) {
+      ChoiceBox<Integer> birthYearChoiceBox, TextField nameSearchTextField,
+      TableView<Worker> workersTableView, TableColumn<Worker, String> rankColumn,
+      TableColumn<?, ?> fullNameColumn, TableColumn<?, ?> birthDateColumn,
+      TableColumn<?, ?> registrationNumberColumn, TableColumn<?, ?> militarySpecialtyColumn,
+      TableColumn<Worker, String> trainingColumn, TableColumn<?, ?> accountingCategoryColumn,
+      TableColumn<?, ?> degreeColumn, TableColumn<?, ?> idInfoColumn,
+      WorkerRepository workerRepository) {
     this.rankChoiceBox = rankChoiceBox;
     this.birthYearChoiceBox = birthYearChoiceBox;
     this.nameSearchTextField = nameSearchTextField;
@@ -61,6 +81,9 @@ public class WorkerTabSubController {
     this.workerRepository = workerRepository;
   }
 
+  /**
+   * Load data from database.
+   */
   public void loadData() {
     // Fill the table with data
     workers = workerRepository.findAll();
@@ -77,6 +100,9 @@ public class WorkerTabSubController {
     rankChoiceBox.getItems().addAll(workerRepository.getDistinctRanks());
   }
 
+  /**
+   * Refresh data in TableView.
+   */
   public void refreshData() {
     workers.clear();
     workersObservableList.clear();
@@ -87,6 +113,9 @@ public class WorkerTabSubController {
     workersTableView.refresh();
   }
 
+  /**
+   * Add worker to database.
+   */
   public void setupFiltering() {
     new SearchWorkerByName().search(nameSearchTextField, workers, workersObservableList);
     new FilterWorkerByBirthYear().filter(birthYearChoiceBox, rankChoiceBox, workers,
@@ -96,6 +125,9 @@ public class WorkerTabSubController {
     new AddRowClickHandling().rowClickHandling(workersTableView);
   }
 
+  /**
+   * Setup table columns.
+   */
   public void setupTableColumns() {
     rankColumn.setCellValueFactory(workerStringCellDataFeatures -> new ReadOnlyStringWrapper(
         workerStringCellDataFeatures.getValue().getRank().getName()));
