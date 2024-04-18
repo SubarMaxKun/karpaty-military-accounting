@@ -73,6 +73,16 @@ public class RankTabSubController {
       alert.setTitle("Помилка");
       alert.setHeaderText("Помилка додавання звання");
       alert.setContentText("Поле не може бути пустим!");
+      alert.show();
+      return;
+    }
+
+    if (rankRepository.existsByName(rankSearchTextField.getText())) {
+      Alert alert = new Alert(Alert.AlertType.ERROR);
+      alert.setTitle("Помилка");
+      alert.setHeaderText("Помилка додавання звання");
+      alert.setContentText("Таке звання вже існує!");
+      alert.show();
       return;
     }
 
